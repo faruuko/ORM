@@ -1,0 +1,45 @@
+name: Publish
+on:
+  release:
+    types: [created]
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.16.1
+          registry-url: https://npm.pkg.github.com/
+          scope: '@faruuko'
+      - name: Install PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.3.1
+          run_install: false
+      - name: Get PNPM store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name: Setup PNPM cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build package
+        run: npx tsup
+      - name: Authenticate
+        run: echo "@faruuko:registry = https://npm.pkg.github.com/ //npm.pkg.github.com:_authToken=${{ secrets.ORM_OPERATIONS_ACCESS_TOKEN }}" > ~/.npmrc
+      - name: Publish package
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.ORM_OPERATIONS_ACCESS_TOKEN}}
