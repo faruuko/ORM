@@ -1,0 +1,174 @@
+{
+  "name": "@faruuko/outrage-orm",
+  "description": "Outrage DB operations",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "bin": {
+    "migrate": "bin/migrate.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts --ignore-path .gitignore",
+    "lint:fix": "eslint . --fix --ext .ts --ignore-path .gitignore",
+    "format": "prettier --no-error-on-unmatched-pattern \"**/*.ts\" --write --ignore-path .gitignore",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watchAll --coverage=true --coverageReporters=text"
+  },
+  "repository": "https://github.com/faruuko/ORM",
+  "author": "Faruq Alli-Balogun <ab.faruq@sten.agency>",
+  "license": "Unlicense",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.2",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "drizzle-kit": "^0.20.14",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.3",
+    "typescript-transform-paths": "^3.4.7"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.6",
+    "ksuid": "^3.0.0",
+    "postgres": "^3.4.4",
+    "redis": "^4.6.13",
+    "redis-om": "^0.4.3"
+  },
+  "files": [
+    "build",
+    "package.json"
+  ],
+  "exports": {
+    "./postgres/connect": {
+      "import": "./build/connect/postgres-connect.js",
+      "require": "./build/connect/postgres-connect.js",
+      "types": "./build/connect/postgres-connect.d.ts"
+    },
+    "./postgres/schema": {
+      "import": "./build/postgres/schema.js",
+      "require": "./build/postgres/schema.js",
+      "types": "./build/postgres/schema.d.ts"
+    },
+    "./postgres/operations/*": {
+      "import": "./build/postgres/operations/*.js",
+      "require": "./build/postgres/operations/*.js",
+      "types": "./build/postgres/operations/*.d.ts"
+    },
+    "./postgres/prepared-statements/*": {
+      "import": "./build/postgres/prepared-statements/*.js",
+      "require": "./build/postgres/prepared-statements/*.js",
+      "types": "./build/postgres/prepared-statements/*.d.ts"
+    },
+    "./redis/connect": {
+      "import": "./build/connect/redis-connect.js",
+      "require": "./build/connect/redis-connect.js",
+      "types": "./build/connect/redis-connect.d.ts"
+    },
+    "./redis/repository": {
+      "import": "./build/redis/repository.js",
+      "require": "./build/redis/repository.js",
+      "types": "./build/redis/repository.d.ts"
+    },
+    "./redis/operations/*": {
+      "import": "./build/redis/operations/*.js",
+      "require": "./build/redis/operations/*.js",
+      "types": "./build/redis/operations/*.d.ts"
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "globals": {
+      "symbol": "readonly"
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2021
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "no-console": [
+        "error"
+      ],
+      "no-empty": [
+        "error"
+      ],
+      "no-unused-vars": [
+        "error"
+      ]
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "tabWidth": 2
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.spec.ts"
+    ],
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "#/(.*)": "<rootDir>/$1"
+    },
+    "collectCoverageFrom": [
+      "**/*.ts"
+    ]
+  },
+  "tsup": {
+    "entry": [
+      "connect/*",
+      "postgres/*",
+      "redis/*"
+    ],
+    "target": "ES2021",
+    "outDir": "build",
+    "format": [
+      "cjs"
+    ],
+    "bundle": true,
+    "dts": true,
+    "clean": true,
+    "splitting": false,
+    "treeshaking": true,
+    "minify": true,
+    "tsconfig": "tsconfig.json"
+  }
+}

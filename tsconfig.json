@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "build",
+    "target": "ES2021",
+    "lib": ["ES2021"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "paths": {
+      "#/*": ["./*"]
+    },
+    "moduleResolution": "node",
+    "types": ["node", "jest"]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "require": [
+      "typescript-transform-paths/register",
+      "tsconfig-paths/register"
+    ]
+  },
+  "plugins": [
+    { "transform": "typescript-transform-paths", "afterDeclarations": true }
+  ],
+  "include": ["**/*.ts"],
+  "exclude": ["postgres/migrations"]
+}
