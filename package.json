@@ -72,11 +72,6 @@
       "require": "./build/connect/redis-connect.js",
       "types": "./build/connect/redis-connect.d.ts"
     },
-    "./redis/repository": {
-      "import": "./build/redis/repository.js",
-      "require": "./build/redis/repository.js",
-      "types": "./build/redis/repository.d.ts"
-    },
     "./redis/operations/*": {
       "import": "./build/redis/operations/*.js",
       "require": "./build/redis/operations/*.js",
