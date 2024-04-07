@@ -1,15 +1,8 @@
-import {
-  createClient,
-  RedisClientType,
-  RedisFunctions,
-  RedisModules,
-  RedisScripts
-} from 'redis';
+import { createClient } from 'redis';
+import { RedisConnection } from 'redis-om';
 import pickVariable from '#/utils/pick-variable';
 
-export default async (): Promise<
-  RedisClientType<RedisModules, RedisFunctions, RedisScripts>
-> => {
+export default async (): Promise<RedisConnection> => {
   return createClient({
     url: pickVariable<string>('REDIS_URL')
   }).connect();
